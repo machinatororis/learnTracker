@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Learn Tracker</title>
+</head>
+<body>
+    {% extends "learn_trackers/base.html" %}
+
+    {% block content %}
+    <p>Теми</p>
+
+        <ul>
+            {% for topic in topics %}
+                <li>{{ topic }}</li>
+            {% empty %}
+                <li>Жодної теми не додано</li>
+            {% endfor %}
+        </ul>
+    {% endblock content %}
+</body>
+</html>
