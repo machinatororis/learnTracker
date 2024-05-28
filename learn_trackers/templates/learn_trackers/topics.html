@@ -12,9 +12,12 @@
 
         <ul>
             {% for topic in topics %}
-                <li>{{ topic }}</li>
+                <li>
+                    <!-- Кожна тема списку пресдтавляє собою посилання на сторінку теми -->
+                    <a href="{% url "learn_trackers:topic" topic.id %}">{{ topic }}</a>
+                </li>
             {% empty %}
-                <li>Жодної теми не додано</li>
+                <li>Жодної теми ще не додано</li>
             {% endfor %}
         </ul>
     {% endblock content %}

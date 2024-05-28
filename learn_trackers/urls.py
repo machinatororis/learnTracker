@@ -11,4 +11,6 @@ urlpatterns = [  # список сторінок, які можуть запит
     path("", views.index, name="index"),  # схема URL
     # Сторінка зі списком всіх тем
     path("topics/", views.topics, name="topics"),
+    # Сторінка з детальною інформацією по окремій темі
+    path("topics/<int:topic_id>/", views.topic, name="topic"),
 ]

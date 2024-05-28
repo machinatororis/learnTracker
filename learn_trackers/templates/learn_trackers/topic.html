@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Learn Tracker</title>
+</head>
+<body>
+    {% extends 'learn_trackers/base.html' %}
+
+    {% block content %}
+
+        <p>Тема: {{ topic }}</p>
+
+        <p>Записи:</p>
+        <ul>
+            {% for entry in entries %}
+                <li>
+                    <p>{{ entry.date_added|date:"D d M Y H:i" }}</p>
+                    <p>{{ entry.text|linebreaks }}</p>
+                </li>
+            {% empty %}
+                <li>По цій темі ще не додано жодного запису</li>
+            {% endfor %}
+        </ul>
+
+    {% endblock content %}
+</body>
+</html>
