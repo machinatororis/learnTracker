@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Topic
+from .forms import TopicForm
 
 
 def index(reguest):
@@ -29,3 +30,23 @@ def topic(reguest, topic_id):  # в topic_id зберігаємо вираз з 
         "entries": entries,
     }  # зберігаємо тему і записи у контекст, який передамо потім шаблону
     return render(reguest, "learn_trackers/topic.html", context)
+
+
+def new_topic(request):
+    """Визначає нову тему"""
+    # перевіряємо, був запит GET чи POST
+    if request.method != "POST":
+        # Дані не відправлялись, створюємо порожню форму
+        form = TopicForm()
+    else:
+        # Відправлені дані POST, оброблюємо дані
+        form = TopicForm(data=request.POST)
+        if (
+            form.is_valid()
+        ):  # перевіряємо, чи всі обов'язкові поля заповнені, тоді зберігаємо в БД
+            form.save()
+            return redirect("learn_trackers:topics")
+
+    # Виводимо порожню або недійсну форму
+    context = {"form": form}
+    return render(request, "learn_trackers/new_topic.html", context)

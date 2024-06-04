@@ -20,6 +20,8 @@
                 <li>Жодної теми ще не додано</li>
             {% endfor %}
         </ul>
+
+        <a href="{% url 'learn_trackers:new_topic' %}">Додати нову тему</a>
     {% endblock content %}
 </body>
 </html>
