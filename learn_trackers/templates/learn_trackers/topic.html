@@ -12,6 +12,9 @@
         <p>Тема: {{ topic }}</p>
 
         <p>Записи:</p>
+        <p>
+            <a href="{% url "learn_trackers:new_entry" topic.id %}">Додати новий запис</a>
+        </p>
         <ul>
             {% for entry in entries %}
                 <li>

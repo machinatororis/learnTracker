@@ -13,7 +13,7 @@
         <form action="{% url 'learn_trackers:new_topic' %}" method="post">
             {% csrf_token %}  <!-- захист від атак: міжсайтова підробка запитів -->
             {{ form.as_p }}
-            <button name="submit">додати тему</button>
+            <button name="submit">Додати тему</button>
         </form>
     {% endblock content %}
 </body>

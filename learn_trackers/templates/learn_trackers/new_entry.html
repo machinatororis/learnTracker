@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Новий запис</title>
+</head>
+<body>
+    {%  extends "learn_trackers/base.html" %}
+
+    {% block content %}
+        <p> <a href="{% url "learn_trackers:topic" topic.id %}">{{ topic }}</a> </p>
+
+        <p>Додайте новий запис:</p>
+        <form action="{% url "learn_trackers:new_entry" topic.id %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button name="submit">Додати запис</button>
+        </form>
+    {% endblock content %}
+</body>
+</html>

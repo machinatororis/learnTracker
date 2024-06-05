@@ -15,4 +15,7 @@ urlpatterns = [  # список сторінок, які можуть запит
     path("topics/<int:topic_id>/", views.topic, name="topic"),
     # Сторінка для додавання нової теми
     path("new_topic/", views.new_topic, name="new_topic"),
+    # Сторінка для додавання нових записів
+    # <int:topic_id> числове значення теми, яке зберігається в topic_id
+    path("new_entry/<int:topic_id>/", views.new_entry, name="new_entry"),
 ]

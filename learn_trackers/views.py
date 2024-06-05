@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Topic
-from .forms import TopicForm
+from .forms import TopicForm, EntryForm
 
 
 def index(reguest):
@@ -50,3 +50,33 @@ def new_topic(request):
     # Виводимо порожню або недійсну форму
     context = {"form": form}
     return render(request, "learn_trackers/new_topic.html", context)
+
+
+def new_entry(
+    request, topic_id
+):  # містить topic_id для зберігання отриманого значення з URL
+    """Додає новий запис по конкретній темі"""
+    topic = Topic.objects.get(
+        id=topic_id
+    )  # використовуємо topic_id для отримання об'єкта теми
+    if request.method != "POST":
+        # Дані не відправлялись, створюємо порожню форму
+        form = EntryForm()
+    else:
+        # Відправлені дані POST, оброблюємо дані
+        form = EntryForm(
+            data=request.POST
+        )  # створюємо EntryForm, заповнений даними POST з об'єкту request
+        if form.is_valid():
+            new_entry = form.save(
+                commit=False
+            )  # зберігаємо новий запис у new_entry, без запису у БД
+            new_entry.topic = topic  # додаємо запису його тему
+            new_entry.save()  # зберігаємо в БД з правильно зв'язанною темою
+            return redirect(
+                "learn_trackers:topic", topic_id=topic_id
+            )  # редірект на тему, для якої бул доданий запис
+
+    # Виводимо порожню або недійсну форму
+    context = {"topic": topic, "form": form}
+    return render(request, "learn_trackers/new_entry.html", context)
