@@ -20,6 +20,9 @@
                 <li>
                     <p>{{ entry.date_added|date:"D d M Y H:i" }}</p>
                     <p>{{ entry.text|linebreaks }}</p>
+                    <p>
+                        <a href="{% url 'learn_trackers:edit_entry' entry.id %}">Редагувати запис</a>
+                    </p>
                 </li>
             {% empty %}
                 <li>По цій темі ще не додано жодного запису</li>

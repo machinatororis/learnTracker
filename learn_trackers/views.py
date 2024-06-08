@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Topic
+from .models import Topic, Entry
 from .forms import TopicForm, EntryForm
 
 
@@ -80,3 +80,25 @@ def new_entry(
     # Виводимо порожню або недійсну форму
     context = {"topic": topic, "form": form}
     return render(request, "learn_trackers/new_entry.html", context)
+
+
+def edit_entry(request, entry_id):
+    """Редагує існуючий запис"""
+    # Отримуємо об'ект запису для зміни і тему, пов'язану з цим записом
+    entry = Entry.objects.get(id=entry_id)
+    topic = entry.topic
+
+    if request.method != "POST":
+        # вихідний запит, форма заповнюється даними поточного запису
+        form = EntryForm(
+            instance=entry
+        )  # створює форму, заздалегідь заповнену з об'єкта запису
+    else:
+        # відправка даних POST, обробити дані
+        form = EntryForm(instance=entry, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("learn_trackers:topic", topic_id=topic.id)
+
+    context = {"entry": entry, "topic": topic, "form": form}
+    return render(request, "learn_trackers/edit_entry.html", context)
