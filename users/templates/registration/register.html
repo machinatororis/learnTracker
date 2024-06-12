@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Реєстрація</title>
+</head>
+<body>
+    {% extends "learn_trackers/base.html" %}
+
+    {% block content %}
+        <form method="post" action="{% url "users:register" %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button name="submit">Зареєструватись</button>
+            <input type="hidden" name="next" value="{% url "learn_trackers:index" %}" />
+        </form>
+
+    {% endblock content %}
+</body>
+</html>

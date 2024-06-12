@@ -8,6 +8,7 @@
             <button type="submit">Вийти</button>
         </form>
     {% else %}
+        <a href="{% url "users:register" %}">Зареєструватись</a> -
         <a href="{% url "users:login" %}">Увійти</a>
     {% endif %}
 </p>
