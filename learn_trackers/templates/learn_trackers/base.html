@@ -3,6 +3,10 @@
     <a href="{% url 'learn_trackers:topics' %}">Теми</a> -
     {% if user.is_authenticated %}
         Вітаємо, {{ user.username }}!
+        <form action="{% url "users:logout" %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Вийти</button>
+        </form>
     {% else %}
         <a href="{% url "users:login" %}">Увійти</a>
     {% endif %}
