@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 from .models import Topic, Entry
 from .forms import TopicForm, EntryForm
 
@@ -20,9 +21,12 @@ def topics(request):
 
 
 @login_required
-def topic(reguest, topic_id):  # в topic_id зберігаємо вираз з <int:topic_id>
+def topic(request, topic_id):  # в topic_id зберігаємо вираз з <int:topic_id>
     """Показує одну тему та всі її записи"""
     topic = Topic.objects.get(id=topic_id)  # отримуємо тему
+    # перевірка того, що тема належить поточному користувачеві
+    if topic.owner != request.user:
+        raise Http404
     entries = topic.entry_set.order_by(
         "-date_added"
     )  # завантажуємо записи, впорядковуємо у зворотньому порядку
@@ -30,7 +34,7 @@ def topic(reguest, topic_id):  # в topic_id зберігаємо вираз з 
         "topic": topic,
         "entries": entries,
     }  # зберігаємо тему і записи у контекст, який передамо потім шаблону
-    return render(reguest, "learn_trackers/topic.html", context)
+    return render(request, "learn_trackers/topic.html", context)
 
 
 @login_required
@@ -91,6 +95,9 @@ def edit_entry(request, entry_id):
     # Отримуємо об'ект запису для зміни і тему, пов'язану з цим записом
     entry = Entry.objects.get(id=entry_id)
     topic = entry.topic
+    # перевірка того, що тема належить поточному користувачеві
+    if topic.owner != request.user:
+        raise Http404
 
     if request.method != "POST":
         # вихідний запит, форма заповнюється даними поточного запису
