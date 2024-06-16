@@ -13,10 +13,9 @@ class Topic(models.Model):
     # якщо користувач видаляється, всі його теми теж видаляються
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
-
-def __str__(self):
-    """Повертає рядкове представлення моделі (повертає рядок, який зберігається в атрибуті text)"""
-    return self.text
+    def __str__(self):
+        """Повертає рядкове представлення моделі (повертає рядок, який зберігається в атрибуті text)"""
+        return self.text
 
 
 class Entry(models.Model):

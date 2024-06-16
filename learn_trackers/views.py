@@ -10,15 +10,13 @@ def index(reguest):
 
 
 @login_required  # перевіряє, чи залогінений користувач
-def topics(reguest):
+def topics(request):
     """Показує список тем"""
-    topics = Topic.objects.order_by(
-        "date_added"
-    )  # Питаємо в БД об'єкти Topic відсортовані по атрибуту date_added
-    context = {
-        "topics": topics
-    }  # Передаємо в шаблон пари ключ-значення, які містять набори тем
-    return render(reguest, "learn_trackers/topics.html", context)
+    # Питаємо в БД об'єкти Topic для користувача-власника, відсортовані по атрибуту date_added
+    topics = Topic.objects.filter(owner=request.user).order_by("date_added")
+    # Передаємо в шаблон пари ключ-значення, які містять набори тем
+    context = {"topics": topics}
+    return render(request, "learn_trackers/topics.html", context)
 
 
 @login_required
