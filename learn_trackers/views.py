@@ -25,8 +25,7 @@ def topic(request, topic_id):  # в topic_id зберігаємо вираз з 
     """Показує одну тему та всі її записи"""
     topic = Topic.objects.get(id=topic_id)  # отримуємо тему
     # перевірка того, що тема належить поточному користувачеві
-    if topic.owner != request.user:
-        raise Http404
+    check_topic_owner(request.user, topic)
     entries = topic.entry_set.order_by(
         "-date_added"
     )  # завантажуємо записи, впорядковуємо у зворотньому порядку
@@ -47,10 +46,11 @@ def new_topic(request):
     else:
         # Відправлені дані POST, оброблюємо дані
         form = TopicForm(data=request.POST)
-        if (
-            form.is_valid()
-        ):  # перевіряємо, чи всі обов'язкові поля заповнені, тоді зберігаємо в БД
-            form.save()
+        # перевіряємо, чи всі обов'язкові поля заповнені, тоді зберігаємо в БД
+        if form.is_valid():
+            new_topic = form.save(commit=False)
+            new_topic.owner = request.user
+            new_topic.save()
             return redirect("learn_trackers:topics")
 
     # Виводимо порожню або недійсну форму
@@ -63,9 +63,10 @@ def new_entry(
     request, topic_id
 ):  # містить topic_id для зберігання отриманого значення з URL
     """Додає новий запис по конкретній темі"""
-    topic = Topic.objects.get(
-        id=topic_id
-    )  # використовуємо topic_id для отримання об'єкта теми
+    # використовуємо topic_id для отримання об'єкта теми
+    topic = Topic.objects.get(id=topic_id)
+    # перевірка того, що тема належить поточному користувачеві
+    check_topic_owner(request.user, topic)
     if request.method != "POST":
         # Дані не відправлялись, створюємо порожню форму
         form = EntryForm()
@@ -96,8 +97,7 @@ def edit_entry(request, entry_id):
     entry = Entry.objects.get(id=entry_id)
     topic = entry.topic
     # перевірка того, що тема належить поточному користувачеві
-    if topic.owner != request.user:
-        raise Http404
+    check_topic_owner(request.user, topic)
 
     if request.method != "POST":
         # вихідний запит, форма заповнюється даними поточного запису
@@ -113,3 +113,9 @@ def edit_entry(request, entry_id):
 
     context = {"entry": entry, "topic": topic, "form": form}
     return render(request, "learn_trackers/edit_entry.html", context)
+
+
+def check_topic_owner(user, topic):
+    """Перевіряє, що тема належить поточному користувачеві"""
+    if topic.owner != user:
+        raise Http404
