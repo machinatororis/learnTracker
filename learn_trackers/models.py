@@ -1,18 +1,22 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Topic(models.Model):
     """Тема, яку вивчає користувач"""
 
     text = models.CharField(max_length=200)
+    # при додаванні нової теми, використовуємо теперішню дату
     date_added = models.DateTimeField(
         auto_now_add=True
     )  # блок для зберігання дати та часу
-    # при додаванні нової теми, використовуємо теперішню дату
+    # якщо користувач видаляється, всі його теми теж видаляються
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    def __str__(self):
-        """Повертає рядкове представлення моделі (повертає рядок, який зберігається в атрибуті text)"""
-        return self.text
+
+def __str__(self):
+    """Повертає рядкове представлення моделі (повертає рядок, який зберігається в атрибуті text)"""
+    return self.text
 
 
 class Entry(models.Model):
