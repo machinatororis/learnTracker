@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from .models import Topic, Entry
 from .forms import TopicForm, EntryForm
 
@@ -8,6 +9,7 @@ def index(reguest):
     return render(reguest, "learn_trackers/index.html")
 
 
+@login_required  # перевіряє, чи залогінений користувач
 def topics(reguest):
     """Показує список тем"""
     topics = Topic.objects.order_by(
@@ -19,6 +21,7 @@ def topics(reguest):
     return render(reguest, "learn_trackers/topics.html", context)
 
 
+@login_required
 def topic(reguest, topic_id):  # в topic_id зберігаємо вираз з <int:topic_id>
     """Показує одну тему та всі її записи"""
     topic = Topic.objects.get(id=topic_id)  # отримуємо тему
@@ -32,6 +35,7 @@ def topic(reguest, topic_id):  # в topic_id зберігаємо вираз з 
     return render(reguest, "learn_trackers/topic.html", context)
 
 
+@login_required
 def new_topic(request):
     """Визначає нову тему"""
     # перевіряємо, був запит GET чи POST
@@ -52,6 +56,7 @@ def new_topic(request):
     return render(request, "learn_trackers/new_topic.html", context)
 
 
+@login_required
 def new_entry(
     request, topic_id
 ):  # містить topic_id для зберігання отриманого значення з URL
@@ -82,6 +87,7 @@ def new_entry(
     return render(request, "learn_trackers/new_entry.html", context)
 
 
+@login_required
 def edit_entry(request, entry_id):
     """Редагує існуючий запис"""
     # Отримуємо об'ект запису для зміни і тему, пов'язану з цим записом
