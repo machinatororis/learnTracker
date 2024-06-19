@@ -31,8 +31,12 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # Мої додатки
     "learn_trackers",
     "users",
+    # Сторонні додатки
+    "django_bootstrap5",
+    # додатки django за замовченням
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
