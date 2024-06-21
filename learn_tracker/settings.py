@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     "learn_trackers",
     "users",
     # Сторонні додатки
-    "django_bootstrap5",
+    "bootstrap4",
     # додатки django за замовченням
     "django.contrib.admin",
     "django.contrib.auth",

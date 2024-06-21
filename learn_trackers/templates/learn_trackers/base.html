@@ -1,73 +1,61 @@
-{% load static %}
-{% load django_bootstrap5 %}
+{% load bootstrap4 %}
 
 <!doctype html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+         <meta charset="utf-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1,
+           shrink-to-fit=no">
         <title>Learn Tracker</title>
 
         {% bootstrap_css %}
-         <link rel="icon" href="{% static 'images/favicon.ico' %}">
+        {% bootstrap_javascript jquery='full' %}
+
     </head>
     <body>
         <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 border">
-            <div class="container d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center">
-                    <a class="navbar-brand" href="{% url "learn_trackers:index" %}">Learn Tracker</a>
+            <a class="navbar-brand" href="{% url 'learn_trackers:index'%}">
+                        Learning Log</a>
 
-                    <button class="navbar-toggler ml-2" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarCollapse">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url "learn_trackers:topics" %}">Теми</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center">
-                    <ul class="navbar-nav ml-auto align-items-center">
-                        {% if user.is_authenticated %}
-                            <li class="nav-item">
-                                <span class="navbar-text mx-2">{{ user.username }}</span>
-                            </li>
-                            <li class="nav-item">
-                                <form method="post" action="{% url 'users:logout' %}">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-secondary ml-2">Вихід</button>
-                                </form>
-                            </li>
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link ml-2" href="{% url "users:register" %}">Реєстрація</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link ml-2" href="{% url "users:login" %}">Вхід</a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarCollapse" aria-controls="navbarCollapse"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'learn_trackers:topics'%}">
+                        Topics</a></li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <span class="navbar-text">Hello, {{ user.username }}.</span>
+                        </li>
+                        <li class="nav-item">
+                            <form method="post" action="{% url 'users:logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-secondary ml-2">Log out</button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'users:register' %}">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'users:login' %}">Log in</a></li>
+                    {% endif %}
+                </ul>
             </div>
         </nav>
-        <main role="main" class="container my-4">
+        <main role="main" class="container">
             <div class="pb-2 mb-2 border-bottom">
-                {% block page_header %}
-                {% endblock page_header %}
+                {% block page_header %}{% endblock page_header %}
             </div>
             <div>
-                {% block content %}
-                {% endblock content %}
+                {% block content %}{% endblock content %}
             </div>
         </main>
-
-        <!-- Підключення jQuery -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <!-- Підключення Bootstrap JavaScript -->
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-
-        {% bootstrap_javascript %}
     </body>
 </html>
+
