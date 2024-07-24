@@ -12,8 +12,11 @@
         <h1 class="display-3">Відстежуйте своє навчання</h1>
         <p class="lead">Створіть власний журнал навчання та зберігайте список
                   тем, які ви вивчаєте. Щоразу, коли ви дізнаєтесь щось нове, зробіть запис, підсумовуючи нові знання.</p>
-        <a class="btn btn-lg btn-primary" href="{% url 'users:register' %}"
+
+        {% if not user.is_authenticated %}
+            <a class="btn btn-lg btn-primary" href="{% url 'users:register' %}"
                   role="button">Зареєструватися &raquo;</a>
+        {% endif %}
         </div>
     {% endblock page_header %}
 </body>
