@@ -6,15 +6,20 @@
 </head>
 <body>
     {%  extends "learn_trackers/base.html" %}
+    {% load bootstrap4 %}
+
+    {% block page_header %}
+        <h3><a href="{% url "learn_trackers:topic" topic.id %}">{{ topic }}</a></h3>
+    {% endblock page_header %}
 
     {% block content %}
-        <p> <a href="{% url "learn_trackers:topic" topic.id %}">{{ topic }}</a> </p>
-
-        <p>Додайте новий запис:</p>
+        <h6>Додайте новий запис:</h6>
         <form action="{% url "learn_trackers:new_entry" topic.id %}" method="post">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button name="submit">Додати запис</button>
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button name="submit" class="btn btn-primary">Додати запис</button>
+            {% endbuttons %}
         </form>
     {% endblock content %}
 </body>

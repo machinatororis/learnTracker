@@ -20,7 +20,7 @@
             {% for entry in entries %}
                 <div class="card mb-3">
                     <h4 class="card-header">
-                        {{ entry.date_added|date:'M d, Y H:i' }}
+                        {{ entry.date_added|date:'F d, Y H:i' }}
                         <small><a href="{% url 'learn_trackers:edit_entry' entry.id %}">редагувати запис</a></small>
                     </h4>
                     <div class="card-body">

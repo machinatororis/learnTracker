@@ -6,13 +6,15 @@
 </head>
 <body>
     {% extends "learn_trackers/base.html" %}
+    {% load bootstrap4 %}
 
     {% block content %}
         <form method="post" action="{% url "users:register" %}">
             {% csrf_token %}
-            {{ form.as_p }}
-
-            <button name="submit">Зареєструватись</button>
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button name="submit" class="btn btn-primary">Зареєструватись</button>
+            {% endbuttons %}
             <input type="hidden" name="next" value="{% url "learn_trackers:index" %}" />
         </form>
 
