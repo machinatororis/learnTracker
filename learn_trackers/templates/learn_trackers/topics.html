@@ -7,21 +7,24 @@
 <body>
     {% extends "learn_trackers/base.html" %}
 
-    {% block content %}
-    <p>Теми</p>
+    {% block page_header %}
+        <h1>Теми</h1>
+    {% endblock page_header %}
 
+
+    {% block content %}
         <ul>
             {% for topic in topics %}
-                <li>
+                <li><h5>
                     <!-- Кожна тема списку пресдтавляє собою посилання на сторінку теми -->
                     <a href="{% url "learn_trackers:topic" topic.id %}">{{ topic }}</a>
-                </li>
+                </h5></li>
             {% empty %}
-                <li>Жодної теми ще не додано</li>
+                <li><h5>Жодної теми ще не додано</h5></li>
             {% endfor %}
         </ul>
 
-        <a href="{% url 'learn_trackers:new_topic' %}">Додати нову тему</a>
+        <h4><a href="{% url 'learn_trackers:new_topic' %}">Додати нову тему</a></h4>
     {% endblock content %}
 </body>
 </html>
